@@ -28,4 +28,6 @@ public class User {
     @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY, mappedBy = "user")
     private List<Booking> bookingList;
 
+    public User(String empty_name) {
+    }
 }

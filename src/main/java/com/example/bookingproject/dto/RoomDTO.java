@@ -13,7 +13,7 @@ import java.util.List;
 public class RoomDTO {
 
     private Long id;
-    private boolean isReadyForBooking;
+    private String name;
     private List<Long> bookings_id = new ArrayList<>();
 
 }

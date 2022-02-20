@@ -40,4 +40,6 @@ public class Booking {
             inverseJoinColumns = @JoinColumn(name = "room_id")
     )
     private List<Room> rooms = new ArrayList<>();
+
+
 }

@@ -19,8 +19,8 @@ public class Room {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(name = "busy")
-    private boolean isReadyForBooking;
+    @Column(name = "name")
+    private String name;
 
     @ManyToMany(mappedBy = "rooms")
     private List<Booking> bookingList = new ArrayList<>();

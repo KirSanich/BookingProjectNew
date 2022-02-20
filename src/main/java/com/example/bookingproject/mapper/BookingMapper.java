@@ -12,6 +12,7 @@ import org.springframework.stereotype.Component;
 
 import java.time.OffsetDateTime;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Component
@@ -35,24 +36,23 @@ public class BookingMapper {
         OffsetDateTime fromUTC = booking.getFromUTC();
         OffsetDateTime toUTC = booking.getToUTC();
         List<Room> roomList = booking.getRooms();
-        User user = userService.getUserById(id);
-        return new BookingDTO(id,comment,fromUTC,toUTC, user.getId(),roomList.stream().map(Room::getId).collect(Collectors.toList()));
+        User user = userService.getUserById(booking.getUser().getId());
+        return new BookingDTO(id, comment, fromUTC, toUTC, user.getId(), roomList.stream().map(Room::getId).collect(Collectors.toList()));
 
     }
 
-    public Booking fromBookingDTOToBooking(BookingDTO bookingDTO)
-    {
-      Long id = bookingDTO.getId();
-      String comment = bookingDTO.getComment();
-      OffsetDateTime fromUTC = bookingDTO.getFromUTC();
-      OffsetDateTime toUTC = bookingDTO.getToUTC();
-      User user = userService.getUserById(bookingDTO.getUser_id());
-      List<Room> rooms= bookingDTO
-              .getRooms_id()
-              .stream()
-              .map(roomService::getRoomById)
-              .collect(Collectors.toList());
-      return new Booking(id,comment,fromUTC,toUTC,user,rooms);
+    public Booking fromBookingDTOToBooking(BookingDTO bookingDTO) {
+
+        String comment = bookingDTO.getComment();
+        OffsetDateTime fromUTC = bookingDTO.getFromUTC();
+        OffsetDateTime toUTC = bookingDTO.getToUTC();
+        User user = userService.getUserById(bookingDTO.getUser_id());
+        List<Room> rooms = bookingDTO
+                .getRooms_id()
+                .stream()
+                .map(roomService::getRoomById)
+                .collect(Collectors.toList());
+        return Booking.builder().comment(comment).fromUTC(fromUTC).toUTC(toUTC).user(user).rooms(rooms).build();
     }
 
 

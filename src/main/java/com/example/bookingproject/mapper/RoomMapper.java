@@ -1,7 +1,6 @@
 package com.example.bookingproject.mapper;
 
 
-
 import com.example.bookingproject.dto.RoomDTO;
 import com.example.bookingproject.entity.Booking;
 import com.example.bookingproject.entity.Room;
@@ -27,17 +26,17 @@ public class RoomMapper {
     public RoomDTO fromRoomToRoomDTO(Room room) {
         RoomDTO roomDTO = modelMapper.map(room, RoomDTO.class);
         Long id = room.getId();
-        boolean status = room.isReadyForBooking();
+        String name = room.getName();
         List<Booking> bookingList = room.getBookingList();
-        return new RoomDTO(id, status, bookingList.stream().map(Booking::getId).collect(Collectors.toList()));
+        return new RoomDTO(id, name, bookingList.stream().map(Booking::getId).collect(Collectors.toList()));
     }
 
     public Room fromRoomDTO(RoomDTO roomDTO) {
         Room room = modelMapper.map(roomDTO, Room.class);
         Long id = room.getId();
-        boolean status = room.isReadyForBooking();
+        String name = room.getName();
         List<Booking> bookingList = room.getBookingList();
-        return new Room(id, status, bookingList);
+        return new Room(id,name, bookingList);
 
     }
 
