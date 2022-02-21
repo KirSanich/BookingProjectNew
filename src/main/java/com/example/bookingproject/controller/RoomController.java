@@ -11,6 +11,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/api/rooms")
 public class RoomController {
@@ -39,4 +41,5 @@ public class RoomController {
         roomService.saveRoom(room);
         return new ResponseEntity<>(roomDTO,HttpStatus.OK);
     }
+
 }
