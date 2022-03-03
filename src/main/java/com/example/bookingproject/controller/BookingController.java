@@ -30,7 +30,7 @@ public class BookingController {
 
     @GetMapping()
     public ResponseEntity<List<BookingDTO>> getAllBookings() {
-        List<BookingDTO> bookingDTOList = bookingService.getAllBooks().stream().map(bookingMapper::fromBookingToBookingDTO).collect(Collectors.toList());
+        List<BookingDTO> bookingDTOList = bookingService.getAllBookings().stream().map(bookingMapper::fromBookingToBookingDTO).collect(Collectors.toList());
         return new ResponseEntity<>(bookingDTOList, HttpStatus.FOUND);
     }
 
