@@ -35,7 +35,6 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
-    //исправлено
     @Override
     public void saveBooking(Booking booking) {
         log.info("Saving booking with id = {}", booking.getId());
@@ -45,17 +44,25 @@ public class BookingServiceImpl implements BookingService {
         OffsetDateTime toUTC = booking.getToUTC();
         List<OffsetDateTime> listFromUTC = getAllBookings().stream().map(Booking::getFromUTC).collect(Collectors.toList());
 
+<<<<<<<<< Temporary merge branch 1
+      if(listFromUTC.stream().anyMatch(from -> from.equals(fromUTC)))
+      {
+          throw new DateTimeException("This time already has chosen");
+      }
+=========
+=========
         if (listFromUTC.stream().anyMatch(from -> from.equals(fromUTC))) {
             throw new DateTimeException("This time already has chosen");
         }
 
         OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
+
         var roomsWithSameUTCtime = getAllBookings()
                 .stream()
                 .filter(x -> x.getFromUTC().equals(fromUTCfromNewBooking))
                 .map(Booking::getRooms)
                 .collect(Collectors.toList());
-        for (var listRoom : roomsWithSameUTCtime) {
+        for (var listRoom:roomsWithSameUTCtime) {
             for (Room value : listRoom) {
                 for (Room room : Rooms) {
                     if (value.equals(room)) {
