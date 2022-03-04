@@ -37,7 +37,32 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public void saveBooking(Booking booking) {
+        log.info("Saving booking with id = {}", booking.getId());
+        List<Room> Rooms = new ArrayList<>(booking.getRooms());
+        booking.setRooms(Rooms);
+        OffsetDateTime fromUTC = booking.getFromUTC();
+        OffsetDateTime toUTC = booking.getToUTC();
 
+        OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
+
+        var roomsWithSameUTCtime = getAllBookings()
+                .stream()
+                .filter(x -> x.getFromUTC().equals(fromUTCfromNewBooking))
+                .map(Booking::getRooms)
+                .collect(Collectors.toList());
+        for (var listRoom:roomsWithSameUTCtime) {
+            for (Room value : listRoom) {
+                for (Room room : Rooms) {
+                    if (value.equals(room)) {
+                        throw new RuntimeException("Такая комната уже занята! " + room);
+                    }
+                }
+            }
+        }
+        if (!booking.getToUTC().isAfter(OffsetDateTime.now()) && booking.getFromUTC().isBefore(booking.getToUTC())) {
+            throw new DateTimeException("Illegal date for booking");
+        }
+        bookingRepository.save(booking);
     }
 
     @Override
