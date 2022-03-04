@@ -50,8 +50,6 @@ public class BookingServiceImpl implements BookingService {
         }
 
 
-
-
         OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
 
         var roomsWithSameUTCtime = getAllBookings()
@@ -68,7 +66,6 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
         }
-
 
         if (!booking.getToUTC().isAfter(OffsetDateTime.now()) && booking.getFromUTC().isBefore(booking.getToUTC())) {
             throw new DateTimeException("Illegal date for booking");
