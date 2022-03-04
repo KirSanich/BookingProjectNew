@@ -35,12 +35,12 @@ public class BookingServiceImpl implements BookingService {
     }
 
 
+    //исправлено
     @Override
     public void saveBooking(Booking booking) {
         log.info("Saving booking with id = {}", booking.getId());
         List<Room> Rooms = new ArrayList<>(booking.getRooms());
         booking.setRooms(Rooms);
-
         OffsetDateTime fromUTC = booking.getFromUTC();
         OffsetDateTime toUTC = booking.getToUTC();
         List<OffsetDateTime> listFromUTC = getAllBookings().stream().map(Booking::getFromUTC).collect(Collectors.toList());
@@ -49,9 +49,7 @@ public class BookingServiceImpl implements BookingService {
             throw new DateTimeException("This time already has chosen");
         }
 
-
         OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
-
         var roomsWithSameUTCtime = getAllBookings()
                 .stream()
                 .filter(x -> x.getFromUTC().equals(fromUTCfromNewBooking))
@@ -66,7 +64,6 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
         }
-
         if (!booking.getToUTC().isAfter(OffsetDateTime.now()) && booking.getFromUTC().isBefore(booking.getToUTC())) {
             throw new DateTimeException("Illegal date for booking");
         }
