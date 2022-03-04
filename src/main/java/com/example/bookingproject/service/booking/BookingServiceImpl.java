@@ -42,18 +42,6 @@ public class BookingServiceImpl implements BookingService {
         booking.setRooms(Rooms);
         OffsetDateTime fromUTC = booking.getFromUTC();
         OffsetDateTime toUTC = booking.getToUTC();
-        List<OffsetDateTime> listFromUTC = getAllBookings().stream().map(Booking::getFromUTC).collect(Collectors.toList());
-
-<<<<<<<<< Temporary merge branch 1
-      if(listFromUTC.stream().anyMatch(from -> from.equals(fromUTC)))
-      {
-          throw new DateTimeException("This time already has chosen");
-      }
-=========
-=========
-        if (listFromUTC.stream().anyMatch(from -> from.equals(fromUTC))) {
-            throw new DateTimeException("This time already has chosen");
-        }
 
         OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
 
