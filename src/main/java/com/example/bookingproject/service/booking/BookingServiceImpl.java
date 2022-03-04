@@ -11,9 +11,7 @@ import org.springframework.stereotype.Service;
 import java.time.DateTimeException;
 import java.time.OffsetDateTime;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -30,7 +28,7 @@ public class BookingServiceImpl implements BookingService {
 
     @Override
     public List<Booking> getAllBookings() {
-        log.info("Getting all booking");
+        log.info("Getting all bookings");
         return bookingRepository.findAll();
     }
 
@@ -45,10 +43,10 @@ public class BookingServiceImpl implements BookingService {
 
         var roomsWithSameUTCtime = getAllBookings()
                 .stream()
-                .filter(x->x.getFromUTC().equals(fromUTCfromNewBooking))
+                .filter(x -> x.getFromUTC().equals(fromUTCfromNewBooking))
                 .map(Booking::getRooms)
                 .collect(Collectors.toList());
-        for (var listRoom:roomsWithSameUTCtime) {
+        for (var listRoom : roomsWithSameUTCtime) {
             for (Room value : listRoom) {
                 for (Room room : Rooms) {
                     if (value.equals(room)) {
@@ -58,16 +56,26 @@ public class BookingServiceImpl implements BookingService {
             }
         }
 
+        OffsetDateTime fromUTC = booking.getFromUTC();
+        OffsetDateTime toUTC = booking.getToUTC();
+        List<OffsetDateTime> listFromUTC = getAllBookings().stream().map(Booking::getFromUTC).collect(Collectors.toList());
+
+        if (listFromUTC.stream().anyMatch(from -> from.equals(fromUTC))) {
+            throw new DateTimeException("This time already has chosen");
+        }
+
+
         if (!booking.getToUTC().isAfter(OffsetDateTime.now()) && booking.getFromUTC().isBefore(booking.getToUTC())) {
             throw new DateTimeException("Illegal date for booking");
         }
         bookingRepository.save(booking);
     }
 
+
     @Override
     public void deleteBooking(Long id) {
-        log.info("Deleting booking with id = {}", id);
-        bookingRepository.delete(getBookingById(id));
+      log.info("Deleting booking with id = {}", id);
+      bookingRepository.delete(getBookingById(id));
     }
 
     @Override
