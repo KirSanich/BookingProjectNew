@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 import java.awt.print.Book;
 import java.time.DateTimeException;
 import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -39,9 +40,10 @@ public class BookingServiceImpl implements BookingService {
         List<Room> Rooms = new ArrayList<>(booking.getRooms());
         booking.setRooms(Rooms);
         OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
+        OffsetDateTime toUTCfromNewBooking = booking.getToUTC();
         var roomsWithSameUTCtime = getAllBookings()
                 .stream()
-                .filter(x -> x.getFromUTC().equals(fromUTCfromNewBooking))
+                .filter(x -> x.getFromUTC().isBefore(fromUTCfromNewBooking) && x.getToUTC().isAfter(toUTCfromNewBooking))
                 .map(Booking::getRooms)
                 .collect(Collectors.toList());
         for (var listRoom : roomsWithSameUTCtime) {
@@ -55,7 +57,7 @@ public class BookingServiceImpl implements BookingService {
         }
 
 
-        if (!booking.getToUTC().isAfter(OffsetDateTime.now()) && booking.getFromUTC().isBefore(booking.getToUTC())) {
+        if (!booking.getToUTC().isAfter(OffsetDateTime.now(ZoneOffset.UTC)) && booking.getFromUTC().isBefore(booking.getToUTC())) {
             throw new DateTimeException("Illegal date for booking");
         }
         bookingRepository.save(booking);
