@@ -8,12 +8,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.awt.print.Book;
 import java.time.DateTimeException;
 import java.time.OffsetDateTime;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,17 +38,13 @@ public class BookingServiceImpl implements BookingService {
         log.info("Saving booking with id = {}", booking.getId());
         List<Room> Rooms = new ArrayList<>(booking.getRooms());
         booking.setRooms(Rooms);
-        OffsetDateTime fromUTC = booking.getFromUTC();
-        OffsetDateTime toUTC = booking.getToUTC();
-
         OffsetDateTime fromUTCfromNewBooking = booking.getFromUTC();
-
         var roomsWithSameUTCtime = getAllBookings()
                 .stream()
                 .filter(x -> x.getFromUTC().equals(fromUTCfromNewBooking))
                 .map(Booking::getRooms)
                 .collect(Collectors.toList());
-        for (var listRoom:roomsWithSameUTCtime) {
+        for (var listRoom : roomsWithSameUTCtime) {
             for (Room value : listRoom) {
                 for (Room room : Rooms) {
                     if (value.equals(room)) {
@@ -59,6 +53,8 @@ public class BookingServiceImpl implements BookingService {
                 }
             }
         }
+
+
         if (!booking.getToUTC().isAfter(OffsetDateTime.now()) && booking.getFromUTC().isBefore(booking.getToUTC())) {
             throw new DateTimeException("Illegal date for booking");
         }
