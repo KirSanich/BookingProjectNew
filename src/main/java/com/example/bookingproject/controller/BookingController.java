@@ -10,6 +10,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import javax.validation.Valid;
 import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.function.Predicate;
@@ -35,7 +36,7 @@ public class BookingController {
     }
 
     @PostMapping("/save")
-    public ResponseEntity<BookingDTO> saveBooking(@RequestBody BookingDTO bookingDTO) {
+    public ResponseEntity<BookingDTO> saveBooking(@Valid @RequestBody BookingDTO bookingDTO) {
 
         Booking booking = bookingMapper.fromBookingDTOToBooking(bookingDTO);
         bookingService.saveBooking(booking);
