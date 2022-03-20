@@ -16,7 +16,7 @@ import java.util.List;
 public class BookingDTO {
 
     private Long id;
-    @NotBlank(message = "Описание не должно быть пустым")
+    @NotNull(message = "Описание не должно быть пустым")
     private String comment;
     private OffsetDateTime fromUTC;
     private OffsetDateTime toUTC;
