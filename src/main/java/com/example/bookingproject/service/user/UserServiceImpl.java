@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void saveUser(User user) {
-        User getUserFromDb = userRepository.getUserByUsername(user.getUsername()).orElseThrow(NotUserFoundException::new);
+       User getUserFromDb = userRepository.getUserByUsername(user.getUsername()).orElse(new User(user.getId(), user.getUsername()));
         if (Objects.equals(getUserFromDb.getUsername(), user.getUsername())) {
             throw new AlreadyExistUserWithUsernameException("Already exist user with that username = " + user.getUsername());
         } else {

@@ -16,7 +16,5 @@ public class UserDTO {
     @NotBlank(message = "Имя не должно быть пустым!")
     @Length(message ="Длина имени минимум ${validation.name.min} символов")
     private String username;
-    @NotNull(message = "Должен быть список букингов")
-    @NotEmpty(message = "Список букингов не должен быть пустым")
     private List<BookingDTO> bookingDTOList = new ArrayList<>();
 }
