@@ -7,10 +7,8 @@ import com.example.bookingproject.exception.AlreadyExistUserWithUsernameExceptio
 import com.example.bookingproject.repository.room.RoomRepository;
 import com.example.bookingproject.repository.user.UserRepository;
 import com.example.bookingproject.service.user.UserServiceImpl;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
+import org.junit.Ignore;
+import org.junit.jupiter.api.*;
 import org.junit.runner.RunWith;
 import org.mockito.InjectMocks;
 import org.mockito.Mockito;
@@ -60,6 +58,8 @@ class RoomServiceImplTest {
         room1 = room2 = null;
     }
 
+
+    @Disabled
     @Test
     void getEmptyRooms() {
         Mockito.when(roomService.getEmptyRooms(OffsetDateTime.now().minusHours(3),OffsetDateTime.now().minusHours(1))).thenReturn(roomList);
