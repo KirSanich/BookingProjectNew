@@ -39,6 +39,7 @@ public class RoomServiceImpl implements RoomService {
                 .flatMap(Collection::stream)
                 .map(Room::getId)
                 .collect(Collectors.toList());
+        //убираю совпадающие айди, которые заняты, в итоге останутся комнаты незанятые
         allRooms.removeAll(list);
         return allRooms
                 .stream()
