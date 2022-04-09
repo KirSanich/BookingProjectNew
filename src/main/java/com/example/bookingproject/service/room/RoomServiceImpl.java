@@ -26,7 +26,6 @@ public class RoomServiceImpl implements RoomService {
 
     @Override
     public List<Room> getEmptyRooms(OffsetDateTime from, OffsetDateTime to) {
-
         // id всех комнат
         var allRooms = roomRepository.findAll().stream().map(Room::getId).collect(Collectors.toList());
         // вытаскиваю id всех комнат, которые заняты в данный промежуток
